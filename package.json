@@ -13,7 +13,6 @@
     "lint": "turbo run lint",
     "check-ts": "turbo run check-ts",
     "release": "turbo run build && changeset publish",
-    "preinstall": "npx only-allow pnpm",
     "prepare": "husky install",
     "pre-push-hook": "pnpm run lint && pnpm run check-ts"
   },
