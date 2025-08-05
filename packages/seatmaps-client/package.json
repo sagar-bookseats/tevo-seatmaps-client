@@ -1,6 +1,6 @@
 {
-  "name": "@ticketevolution/seatmaps-client",
-  "version": "3.5.1",
+  "name": "tevo-seatmaps-client",
+  "version": "3.5.2",
   "private": false,
   "publishConfig": {
     "access": "public"
