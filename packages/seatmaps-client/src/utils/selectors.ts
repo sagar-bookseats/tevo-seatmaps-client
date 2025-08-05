@@ -1,4 +1,4 @@
-import { defaultMemoize, createSelectorCreator } from "reselect";
+import { lruMemoize as defaultMemoize, createSelectorCreator } from "reselect";
 import isEqual from "lodash.isequal";
 
 import { NormalizedTicketGroup } from "../types/TicketGroups";
@@ -22,7 +22,7 @@ export const $missingSectionIds = createDeepEqualSelector(
   (sectionMapping, ticketGroups) =>
     ticketGroups
       .map((ticketGroup) => ticketGroup.tevo_section_name.toLowerCase())
-      .filter((sectionId) => sectionMapping[sectionId] === undefined),
+      .filter((sectionId) => sectionMapping[sectionId] === undefined)
 );
 
 export const $availableTicketGroups = createDeepEqualSelector(
@@ -41,13 +41,12 @@ export const $availableTicketGroups = createDeepEqualSelector(
           }
         );
       })
-      .filter((ticketGroup) => ticketGroup),
+      .filter((ticketGroup) => ticketGroup)
 );
 
 const $priceSortedTicketGroups = createDeepEqualSelector(
   $ticketGroups,
-  (ticketGroups) =>
-    ticketGroups.sort((a, b) => a.retail_price - b.retail_price),
+  (ticketGroups) => ticketGroups.sort((a, b) => a.retail_price - b.retail_price)
 );
 
 export const $costRanges = createDeepEqualSelector(
@@ -62,7 +61,7 @@ export const $costRanges = createDeepEqualSelector(
           min: 0,
           max: 0,
           ticketGroups: [],
-        }),
+        })
       )
       .sort((a, b) => a.percentile - b.percentile);
 
@@ -91,7 +90,7 @@ export const $costRanges = createDeepEqualSelector(
     });
 
     return costRanges.filter(({ min, max }) => !(min === 0 && max === 0));
-  },
+  }
 );
 
 export const $ticketGroupsBySection = createDeepEqualSelector(
@@ -105,11 +104,11 @@ export const $ticketGroupsBySection = createDeepEqualSelector(
           ticketGroup,
         ],
       }),
-      {},
-    ),
+      {}
+    )
 );
 
 export const $venueSections = createDeepEqualSelector(
   $ticketGroupsBySection,
-  Object.keys,
+  Object.keys
 );

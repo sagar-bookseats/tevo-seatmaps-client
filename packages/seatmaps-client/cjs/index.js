@@ -910,7 +910,7 @@ __name(initializeZoom, "initializeZoom");
 var $ticketGroups = /* @__PURE__ */ __name((state) => state.ticketGroups, "$ticketGroups");
 var $sectionMapping = /* @__PURE__ */ __name((state) => state.sectionMapping, "$sectionMapping");
 var $sectionPercentiles = /* @__PURE__ */ __name((_state, props) => props.sectionPercentiles, "$sectionPercentiles");
-var createDeepEqualSelector = reselect.createSelectorCreator(reselect.defaultMemoize, isEqual__default.default);
+var createDeepEqualSelector = reselect.createSelectorCreator(reselect.lruMemoize, isEqual__default.default);
 var $missingSectionIds = createDeepEqualSelector(
   $sectionMapping,
   $ticketGroups,

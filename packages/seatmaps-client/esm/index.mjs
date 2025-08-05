@@ -4,7 +4,7 @@ import React11, { Component } from 'react';
 import { render } from 'react-dom';
 import isEqual from 'lodash.isequal';
 import fetchPonyfill from 'fetch-ponyfill';
-import { createSelectorCreator, defaultMemoize } from 'reselect';
+import { createSelectorCreator, lruMemoize } from 'reselect';
 
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
@@ -900,7 +900,7 @@ __name(initializeZoom, "initializeZoom");
 var $ticketGroups = /* @__PURE__ */ __name((state) => state.ticketGroups, "$ticketGroups");
 var $sectionMapping = /* @__PURE__ */ __name((state) => state.sectionMapping, "$sectionMapping");
 var $sectionPercentiles = /* @__PURE__ */ __name((_state, props) => props.sectionPercentiles, "$sectionPercentiles");
-var createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
+var createDeepEqualSelector = createSelectorCreator(lruMemoize, isEqual);
 var $missingSectionIds = createDeepEqualSelector(
   $sectionMapping,
   $ticketGroups,
