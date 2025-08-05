@@ -24,8 +24,5 @@ src/parse.js
 .stlelintcache
 
 stats
-cjs
-esm
 umd
-dist
 .turbo
