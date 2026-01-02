@@ -40,6 +40,8 @@ interface DefaultProps {
     mouseControlEnabled: boolean;
     showZoomHelper: boolean;
     missingSeatMapLogo?: React.ReactNode;
+    missingSeatMapText?: React.ReactNode;
+    onSeatMapNotFound?(): void;
 }
 interface RequiredProps {
     venueId: string;
@@ -81,8 +83,8 @@ interface ElementProperties {
 type PropertiesForElement = (element: Element) => ElementProperties;
 declare class TicketMap extends Component<Props & DefaultProps, State> {
     publicApi: PublicApi;
-    mapRoot: React$1.RefObject<HTMLDivElement>;
-    container: React$1.RefObject<HTMLDivElement>;
+    mapRoot: React$1.RefObject<HTMLDivElement | null>;
+    container: React$1.RefObject<HTMLDivElement | null>;
     zoom?: ZoomControl;
     static defaultProps: DefaultProps;
     constructor(props: Props & DefaultProps);
@@ -155,8 +157,9 @@ declare function extractConfigurationFromOptions(options: Props): Props;
 declare function validateOptions(options: Props): void;
 declare class SeatmapFactory {
     configuration: Props;
+    private root?;
     constructor(options: Props);
-    build(rootElementId: string): PublicApi | undefined;
+    build(rootElementId: string): Promise<PublicApi | undefined>;
 }
 
 export { SeatmapFactory, TicketMap, extractConfigurationFromOptions, validateOptions };

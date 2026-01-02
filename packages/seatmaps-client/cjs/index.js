@@ -3,7 +3,7 @@
 var pick = require('lodash.pick');
 var union = require('lodash.union');
 var React11 = require('react');
-var reactDom = require('react-dom');
+var client = require('react-dom/client');
 var isEqual = require('lodash.isequal');
 var fetchPonyfill = require('fetch-ponyfill');
 var reselect = require('reselect');
@@ -1193,6 +1193,7 @@ var _TicketMap = class _TicketMap extends React11.Component {
       console.error(error);
       if (error && typeof error === "object" && "name" in error && error.name === "MapNotFoundError") {
         this.setState({ mapNotFound: true });
+        this.props.onSeatMapNotFound?.();
       }
     }
   }
@@ -1404,6 +1405,7 @@ var _TicketMap = class _TicketMap extends React11.Component {
       return /* @__PURE__ */ React11__default.default.createElement(
         "div",
         {
+          className: "seat-map--missing-wrapper",
           style: {
             height: "100%",
             width: "100%",
@@ -1431,9 +1433,10 @@ var _TicketMap = class _TicketMap extends React11.Component {
               style: {
                 fontWeight: 400,
                 fontSize: "1.2em"
-              }
+              },
+              className: "seat-map--missing-text"
             },
-            "Seating Chart Coming Soon"
+            this.props.missingSeatMapText || "Seating Chart Coming Soon"
           )
         )
       );
@@ -1559,6 +1562,7 @@ __name(validateOptions, "validateOptions");
 var _SeatmapFactory = class _SeatmapFactory {
   constructor(options) {
     __publicField(this, "configuration");
+    __publicField(this, "root");
     validateOptions(options);
     this.configuration = extractConfigurationFromOptions(options);
   }
@@ -1570,20 +1574,20 @@ var _SeatmapFactory = class _SeatmapFactory {
     if (!rootElement) {
       throw new Error("Seatmaps must be initialized with a DOM element.");
     }
-    let map;
-    reactDom.render(
-      /* @__PURE__ */ React11__default.default.createElement(
-        TicketMap,
-        {
-          ...this.configuration,
-          ref: (ref) => {
-            map = ref;
+    return new Promise((resolve) => {
+      this.root = client.createRoot(rootElement);
+      this.root.render(
+        /* @__PURE__ */ React11__default.default.createElement(
+          TicketMap,
+          {
+            ...this.configuration,
+            ref: (ref) => {
+              resolve(ref?.publicApi);
+            }
           }
-        }
-      ),
-      rootElement
-    );
-    return map?.publicApi;
+        )
+      );
+    });
   }
 };
 __name(_SeatmapFactory, "SeatmapFactory");

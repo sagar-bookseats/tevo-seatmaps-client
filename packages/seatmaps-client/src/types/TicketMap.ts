@@ -42,6 +42,8 @@ export interface DefaultProps {
   mouseControlEnabled: boolean;
   showZoomHelper: boolean;
   missingSeatMapLogo?: React.ReactNode;
+  missingSeatMapText?: React.ReactNode;
+  onSeatMapNotFound?(): void;
 }
 
 export interface RequiredProps {
